@@ -1,0 +1,56 @@
+#include <iostream>
+#include "MDCPPWithSet.h"
+
+using std::cout;
+using std::endl;
+
+void MDCPPWithSet::printSomething()
+{
+	for(int i=0;i<edgesGp.size();++i) cout<<edgesGp[i]<<" ";
+	cout<<endl;
+	for(int i=0;i<weightsGp.size();++i) cout<<weightsGp[i]<<" ";
+	cout<<endl;
+	cout<<endl;
+	for(auto iter = GpMatchingRes.begin(); iter != GpMatchingRes.end(); ++iter)
+	{
+		cout<<(*iter).first<<" "<<(*iter).second<<endl;
+	}
+	cout<<endl;
+	for(int i=0;i<graph.size();++i)
+	{
+		for(int j=0;j<graph[i].size();++j)
+			cout<<graph[i][j]<<" ";
+		cout<<endl;
+	}
+	cout<<endl;
+	for(int i=0;i<depotSet.size();++i)
+	{
+		cout<<depotSet[i]<<" ";
+	}
+	cout<<endl;
+	cout<<"minCost: "<<cost<<endl;
+}
+
+int main(int argc, char* argv[])
+{
+	vector<vector<int>> initGraph(9, vector<int>(9,0));
+	vector<int> initSet={1,0,1,0,1,0,0,0,1};
+	initGraph[0][1] = 2;initGraph[1][0] = 2;
+	initGraph[0][3] = 5;initGraph[3][0] = 5;
+	initGraph[1][2] = 4;initGraph[2][1] = 4;
+	initGraph[1][4] = 3;initGraph[4][1] = 3;
+	initGraph[2][5] = 2;initGraph[5][2] = 2;
+	initGraph[3][4] = 6;initGraph[4][3] = 6;
+	initGraph[3][6] = 5;initGraph[6][3] = 5;
+	initGraph[4][5] = 4;initGraph[5][4] = 4;
+	initGraph[4][7] = 4;initGraph[7][4] = 4;
+	initGraph[5][8] = 4;initGraph[8][5] = 4;
+	initGraph[6][7] = 9;initGraph[7][6] = 9;
+	initGraph[7][8] = 4;initGraph[8][7] = 4;
+
+	MDCPPWithSet testMDCPP;
+	int res = testMDCPP.solveMDCPP(initGraph, initSet);
+	if(res < 0) return -1;
+	testMDCPP.printSomething();
+	return 0;
+}
