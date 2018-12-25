@@ -155,7 +155,7 @@ int MDCPPWithSet::createNewG()
 		int preNode = shortestPaths[src][dst];
 		while(preNode != -1)
 		{
-			if(graph[preNode][dst] > 0)
+			if(graph[preNode][dst] == 1)
 			{
 				++graph[preNode][dst];
 				++graph[dst][preNode];

@@ -1,8 +1,11 @@
 #include <iostream>
+#include <fstream>
+#include <string>
 #include "MDCPPWithSet.h"
 
 using std::cout;
 using std::endl;
+using std::string;
 
 void MDCPPWithSet::printSomething()
 {
@@ -57,20 +60,20 @@ void MDCPPWithSet::recordData(int &pathNum, int &overlappedNum)
 
 int main(int argc, char* argv[])
 {
-	vector<vector<int>> initGraph(9, vector<int>(9,0));
+/*	vector<vector<int>> initGraph(9, vector<int>(9,0));
 	vector<int> initSet={1,0,1,0,1,0,0,0,1};
-/*	initGraph[0][1] = 2;initGraph[1][0] = 2;
-	initGraph[0][3] = 5;initGraph[3][0] = 5;
-	initGraph[1][2] = 4;initGraph[2][1] = 4;
-	initGraph[1][4] = 3;initGraph[4][1] = 3;
-	initGraph[2][5] = 2;initGraph[5][2] = 2;
-	initGraph[3][4] = 6;initGraph[4][3] = 6;
-	initGraph[3][6] = 5;initGraph[6][3] = 5;
-	initGraph[4][5] = 4;initGraph[5][4] = 4;
-	initGraph[4][7] = 4;initGraph[7][4] = 4;
-	initGraph[5][8] = 4;initGraph[8][5] = 4;
-	initGraph[6][7] = 9;initGraph[7][6] = 9;
-	initGraph[7][8] = 4;initGraph[8][7] = 4;*/
+	// initGraph[0][1] = 2;initGraph[1][0] = 2;
+	// initGraph[0][3] = 5;initGraph[3][0] = 5;
+	// initGraph[1][2] = 4;initGraph[2][1] = 4;
+	// initGraph[1][4] = 3;initGraph[4][1] = 3;
+	// initGraph[2][5] = 2;initGraph[5][2] = 2;
+	// initGraph[3][4] = 6;initGraph[4][3] = 6;
+	// initGraph[3][6] = 5;initGraph[6][3] = 5;
+	// initGraph[4][5] = 4;initGraph[5][4] = 4;
+	// initGraph[4][7] = 4;initGraph[7][4] = 4;
+	// initGraph[5][8] = 4;initGraph[8][5] = 4;
+	// initGraph[6][7] = 9;initGraph[7][6] = 9;
+	// initGraph[7][8] = 4;initGraph[8][7] = 4;
 	initGraph[0][1] = 1;initGraph[1][0] = 1;
 	initGraph[0][3] = 1;initGraph[3][0] = 1;
 	initGraph[1][2] = 1;initGraph[2][1] = 1;
@@ -82,14 +85,26 @@ int main(int argc, char* argv[])
 	initGraph[4][7] = 1;initGraph[7][4] = 1;
 	initGraph[5][8] = 1;initGraph[8][5] = 1;
 	initGraph[6][7] = 1;initGraph[7][6] = 1;
-	initGraph[7][8] = 1;initGraph[8][7] = 1;
+	initGraph[7][8] = 1;initGraph[8][7] = 1;*/
+	char* filename = nullptr;
+	if(argc != 2){cout<<"wrong parameter."; return -1;}
+	filename = argv[1];
+	if(!filename){cout<<"wrong parameter."; return -1;}
+	ifstream input(filename);
+	if(!input){cout<<"wrong parameter."; return -1;}
+	string graphMatrix = "";
+	string depotMatrix = "";
+	while(getline(input, graphMatrix) && getline(input, depotMatrix))
+	{
+		
 
-	MDCPPWithSet testMDCPP;
-	int res = testMDCPP.solveMDCPP(initGraph, initSet);
-	if(res < 0) return -1;
-//	testMDCPP.printSomething();
-	int pathNum = 0, overlappedNum = 0;
-	testMDCPP.recordData(pathNum, overlappedNum);
-	cout<<pathNum<<" "<<overlappedNum<<endl;
+		MDCPPWithSet testMDCPP;
+		int res = testMDCPP.solveMDCPP(initGraph, initSet);
+		if(res < 0) return -1;
+	//	testMDCPP.printSomething();
+		int pathNum = 0, overlappedNum = 0;
+		testMDCPP.recordData(pathNum, overlappedNum);
+		cout<<pathNum<<" "<<overlappedNum<<endl;
+	}
 	return 0;
 }
