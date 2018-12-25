@@ -10,6 +10,7 @@ class MDCPPWithSet
 public:
 	int solveMDCPP(vector<vector<int>> initialGraph, vector<int> initialSet);
 	void printSomething();
+	void recordData(int &pathNum, int &overlappedNum);
 private:
 	void storeInitialGraph(vector<vector<int>> &initialGraph, vector<int> &initialSet);
 	void findOddVertices();

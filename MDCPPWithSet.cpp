@@ -17,7 +17,7 @@ void MDCPPWithSet::findOddVertices()
 			if(graph[i][j] != 0)
 				++degree;
 		}
-		if(degree & 0x01 == 1 && depotSet[i] == 0)
+		if((degree & 0x01) == 1 && depotSet[i] == 0)
 			oddsInComplementarySet.push_back(i);
 	}
 }
