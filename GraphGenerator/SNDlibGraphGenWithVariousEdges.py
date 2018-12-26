@@ -1,9 +1,10 @@
 #! /usr/bin/python
 import sys
 import random
+import numpy as np
+import copy
 
 def transformSNDGraph(filename):
-	topoLists = []
 	file = open(filename)
 	diction = {}
 	sNum = 0
@@ -15,29 +16,82 @@ def transformSNDGraph(filename):
 				flag = 1
 			elif textLine.startswith("LINKS"):
 				flag = 2
-				for i in range(sNum):
-					oneRow = [0 for i in range(sNum)]
-					topoLists.append(oneRow)
-			elif textLine.startswith("DEMANDS"):
-				flag = 3
 			elif len(textLine)>2 and textLine[0] == " ":
 				#print(textLine)
 				if flag == 1:   #parse nodes
 					stringSplit = textLine.split()
 					diction[stringSplit[0]] = sNum
 					sNum += 1
-				elif flag == 2:   #parse links
-					stringSplit = textLine.split()
-					x = diction[stringSplit[2]]
-					y = diction[stringSplit[3]]
-					topoLists[x][y] = 1
-					topoLists[y][x] = 1
-				elif flag == 3:
-					break;
+				elif flag == 2:
+					break
 		else:
 			break
 	file.close()
-	return topoLists, sNum, diction
+	return sNum, diction
+
+def createRandomTopo(sNum, edgeNum):
+	sys.setrecursionlimit(1000000)
+	#create adjaMatrix
+	topoLists = []
+	topoMatrix = g_generator_edge(10000, sNum)
+	for i in topoMatrix:
+		edgeCount = countEdgesNum(i)
+		if edgeCount == edgeNum:
+			for j in range(sNum):
+				oneRow = [0 for k in range(sNum)]
+				topoLists.append(oneRow)
+			for layer1 in range(len(i)):
+				for layer2 in range(len(i)):
+					if i[layer1][layer2] == 1:
+						topoLists[layer1][layer2] = 1
+			break
+
+	if len(topoLists) == 0:  #not found
+		return []
+
+	#check the network connectivity using DFS
+	visited = [0 for i in range(sNum)]
+	def DFS(v):
+		visited[v] = 1
+		for j in range(sNum):
+			if topoLists[v][j] == 1 and visited[j] == 0:
+				DFS(j)
+	disconNode = []
+	for i in range(sNum):
+		if visited[i] == 0:
+			DFS(i)
+			disconNode.append(i)
+	if len(disconNode) != 1:
+		print("error")
+		return []
+
+	return topoLists
+
+def g_generator_edge(NUM_GRAPHS,NUM_NODES,edge_incre=1):
+	op=[]
+	NUM_GRAPHS=min(NUM_GRAPHS,int(NUM_NODES*(NUM_NODES-1)/2-NUM_NODES))
+	for i in range(NUM_GRAPHS):
+		if(i==0):
+			network_matrix=np.zeros([NUM_NODES, NUM_NODES])
+			for j in range(NUM_NODES-1):
+				network_matrix[j][j+1] = 1
+				network_matrix[j+1][j]=1
+			network_matrix[0][NUM_NODES-1]=1
+			network_matrix[NUM_NODES-1][0]=1
+			op.append(network_matrix)
+		else:
+			network_matrix=copy.deepcopy(op[i-1])
+			select=[]
+			for j in range(NUM_NODES):
+				for k in range(j+1,NUM_NODES):
+					if(network_matrix[j][k]==0):
+						select.append([j,k])
+			for l in range(edge_incre):
+				temp=select.pop(random.randint(0,len(select)-1))
+				network_matrix[temp[0]][temp[1]]=1
+				network_matrix[temp[1]][temp[0]]=1
+			op.append(network_matrix)
+	return op
 
 def countEdgesNum(topoLists):
 	count = 0
@@ -79,12 +133,12 @@ def createDepotSetWithPolicy(depotNum, sNum, diction):
 
 if __name__ == '__main__':
 	filename = sys.argv[1]
-	topo, sNum, dictional = transformSNDGraph(filename)
-	count = countEdgesNum(topo)
-	#print(count)
-	#print(topo)
-	#print(dictional)
-	for i in range(3,16,1):
-		depotSet = createDepotSetWithPolicy(i, sNum, dictional)
+	sNum, dictional = transformSNDGraph(filename)
+	depotSet = createDepotSetWithPolicy(12, sNum, dictional)
+	for i in range(50,600,20):
+		topo = createRandomTopo(sNum, i)
+		if len(topo) == 0 or countEdgesNum(topo) != i:
+			print("error")
+			break
 		print(topo)
 		print(depotSet)

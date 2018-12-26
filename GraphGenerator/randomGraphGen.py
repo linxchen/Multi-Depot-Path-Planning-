@@ -1,8 +1,6 @@
 #!/usr/bin/python
 import random
 import sys
-import numpy as np
-import copy
 
 def createRandomTopo(sNum):
 	sys.setrecursionlimit(1000000)
@@ -36,27 +34,6 @@ def createRandomTopo(sNum):
 
 	return topoMatrix, oddCount
 
-def createRandomTopoWithFixedOdds(oddNum, maxSNum, step=1):
-	sys.setrecursionlimit(1000000)
-	sNum = 2*oddNum
-	topoLists = []
-
-	while sNum <= maxSNum:
-		flag = 0
-		while flag != 1:
-			#create adjaMatrix
-			topoMatrix = g_generator_edge(10000, sNum)
-			for i in topoMatrix:
-				oddCount = calOddNum(i, sNum)
-				if oddCount == oddNum:
-					topoLists.append(i)
-					print("sNum ", sNum)
-					flag = 1
-					break
-		sNum += step
-
-	return topoLists
-
 def calOddNum(topoMatrix, sNum):
 	count = 0
 	for i in range(sNum):
@@ -66,32 +43,6 @@ def calOddNum(topoMatrix, sNum):
 		if degreeSum%2 == 1:
 			count += 1
 	return count
-
-def g_generator_edge(NUM_GRAPHS,NUM_NODES,edge_incre=1):
-	op=[]
-	NUM_GRAPHS=min(NUM_GRAPHS,int(NUM_NODES*(NUM_NODES-1)/2-NUM_NODES))
-	for i in range(NUM_GRAPHS):
-		if(i==0):
-			network_matrix=np.zeros([NUM_NODES, NUM_NODES])
-			for j in range(NUM_NODES-1):
-				network_matrix[j][j+1] = 1
-				network_matrix[j+1][j]=1
-			network_matrix[0][NUM_NODES-1]=1
-			network_matrix[NUM_NODES-1][0]=1
-			op.append(network_matrix)
-		else:
-			network_matrix=copy.deepcopy(op[i-1])
-			select=[]
-			for j in range(NUM_NODES):
-				for k in range(j+1,NUM_NODES):
-					if(network_matrix[j][k]==0):
-						select.append([j,k])
-			for l in range(edge_incre):
-				temp=select.pop(random.randint(0,len(select)-1))
-				network_matrix[temp[0]][temp[1]]=1
-				network_matrix[temp[1]][temp[0]]=1
-			op.append(network_matrix)
-	return op
 
 def createDepotSet(depotNum, sNum):
 	depotSet = [0 for i in range(sNum)]
@@ -109,6 +60,3 @@ if __name__ == '__main__':
 		print(topo)
 		print(depotSet)
 #		print(oddCount)
-
-#	topoList = createRandomTopoWithFixedOdds(20,60,5) #each sNum has one graph
-#	print(topoList)
