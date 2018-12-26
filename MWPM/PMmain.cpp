@@ -277,7 +277,11 @@ void PerfectMatching::Augment(Edge* a)
 	{
 		int k = 1;
 		while (k < tree_num) k *= 2;
-		if (k == tree_num || tree_num<=8 || (tree_num<=64 && (tree_num%8)==0)) { printf("%d.", tree_num); fflush(stdout); }
+		if (k == tree_num || tree_num<=8 || (tree_num<=64 && (tree_num%8)==0))
+		{
+			//printf("%d.", tree_num);
+			fflush(stdout);
+		}
 	}
 }
 
@@ -451,19 +455,34 @@ void PerfectMatching::Solve(bool finish)
 			exit(1);
 		}
 	}
-	if (options.verbose) { printf("perfect matching with %d nodes and %d edges\n", node_num, edge_num); fflush(stdout); }
+	if (options.verbose) 
+	{
+		//printf("perfect matching with %d nodes and %d edges\n", node_num, edge_num);
+		fflush(stdout); 
+	}
 
 	if (first_solve)
 	{
-		if (options.verbose) { printf("    starting init..."); fflush(stdout); }
+		if (options.verbose)
+		{
+			//printf("    starting init...");
+			fflush(stdout);
+		}
 		if (options.fractional_jumpstart) InitGlobal();
 		else                              InitGreedy();
-		if (options.verbose) printf("done [%.3f secs]. ", get_time() - start_time);
+		if (options.verbose)
+		{
+			//printf("done [%.3f secs]. ", get_time() - start_time);
+		}
 		first_solve = false;
 	}
 	else if (options.verbose) printf("    solving updated problem. ");
 
-	if (options.verbose) { printf("%d trees\n    .", tree_num); fflush(stdout); }
+	if (options.verbose)
+	{
+		//printf("%d trees\n    .", tree_num);
+		fflush(stdout); 
+	}
 
 	memset(&stat, 0, sizeof(Stat));
 
@@ -684,8 +703,8 @@ void PerfectMatching::Solve(bool finish)
 
 	if (options.verbose)
 	{
-		printf("\ndone [%.3f secs]. %d grows, %d expands, %d shrinks\n", get_time()-start_time, stat.grow_count, stat.expand_count, stat.shrink_count); 
-		printf("    expands: [%.3f secs], shrinks: [%.3f secs], dual updates: [%.3f secs]\n", stat.expand_time, stat.shrink_time, stat.dual_time); 
+		//printf("\ndone [%.3f secs]. %d grows, %d expands, %d shrinks\n", get_time()-start_time, stat.grow_count, stat.expand_count, stat.shrink_count); 
+		//printf("    expands: [%.3f secs], shrinks: [%.3f secs], dual updates: [%.3f secs]\n", stat.expand_time, stat.shrink_time, stat.dual_time); 
 		fflush(stdout); 
 	}
 }

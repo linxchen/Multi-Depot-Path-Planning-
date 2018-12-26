@@ -6,6 +6,7 @@
 using std::cout;
 using std::endl;
 using std::string;
+using std::ifstream;
 
 void MDCPPWithSet::printSomething()
 {
@@ -58,6 +59,21 @@ void MDCPPWithSet::recordData(int &pathNum, int &overlappedNum)
 		pathNum = 0;
 }
 
+int parseOneDimensionMatrix(vector<int> &result, int &switchNum, const string &matrix)
+{
+	int stringSize = matrix.size();
+	if(stringSize==0 || stringSize%3!=0) return -1;
+	switchNum = stringSize/3;
+	if(!result.empty()) return -2;
+	for(int i=0; i<switchNum; ++i)
+	{
+		int num = matrix[1+3*i] - '0';
+		if(num!=0 && num!=1) return -3;
+		result.push_back(num);
+	}
+	return 0;
+}
+
 int main(int argc, char* argv[])
 {
 /*	vector<vector<int>> initGraph(9, vector<int>(9,0));
@@ -96,7 +112,24 @@ int main(int argc, char* argv[])
 	string depotMatrix = "";
 	while(getline(input, graphMatrix) && getline(input, depotMatrix))
 	{
-		
+		vector<int> initSet;
+		int sNum = 0;
+		if(parseOneDimensionMatrix(initSet, sNum, depotMatrix) < 0)
+		{
+			cout<<"wrong depotMatrix."; return -1;
+		}
+		vector<vector<int>> initGraph;
+		int period = sNum*3 + 2;
+		for(int k=0; k<sNum; ++k)
+		{
+			vector<int> oneRow;
+			int s = 0;
+			if(parseOneDimensionMatrix(oneRow, s, graphMatrix.substr(1+period*k, sNum*3)) < 0 || s!=sNum)
+			{
+				cout<<"wrong graphMatrix."; return -1;
+			}
+			initGraph.push_back(oneRow);
+		}
 
 		MDCPPWithSet testMDCPP;
 		int res = testMDCPP.solveMDCPP(initGraph, initSet);
