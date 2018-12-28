@@ -124,6 +124,7 @@ int main(int argc, char* argv[])
 		}
 		vector<vector<int>> initGraph;
 		int period = sNum*3 + 2;
+		int edgesSum = 0;
 		for(int k=0; k<sNum; ++k)
 		{
 			vector<int> oneRow;
@@ -132,8 +133,13 @@ int main(int argc, char* argv[])
 			{
 				cout<<"wrong graphMatrix."; return -1;
 			}
+			for(int ele=0; ele<oneRow.size(); ++ele)
+			{
+				edgesSum += oneRow[ele];
+			}
 			initGraph.push_back(oneRow);
 		}
+		edgesSum /= 2;
 
 		struct timeval startTime, endTime;
 
@@ -148,7 +154,8 @@ int main(int argc, char* argv[])
 	//	testMDCPP.printSomething();
 		int pathNum = 0, overlappedNum = 0;
 		testMDCPP.recordData(pathNum, overlappedNum);
-		cout<<pathNum<<" "<<overlappedNum<<" "<<eulerPathNum<<" "<<time<<endl;
+	//	cout<<pathNum<<" "<<overlappedNum<<" "<<eulerPathNum<<" "<<time<<endl;
+		cout<<pathNum<<" "<<overlappedNum<<" "<<eulerPathNum<<" "<<edgesSum<<endl;
 	}
 	return 0;
 }

@@ -47,8 +47,8 @@ def calEulerPathNum(topoMatrix, sNum):
 	return count
 
 if __name__ == '__main__':
-	den = 0.5         #set depot density
-	for i in range(3, 101, 3):      #set sNum
+	den = 0.8         #set depot density
+	for i in range(6, 101, 3):      #set sNum
 		topo = genSpineLeaf(i) #SNum must be larger than 3
 		depotSet = createDepotSetForSpineLeaf(i, den)
 		eulerPathCount = calEulerPathNum(topo, i)
