@@ -3,6 +3,8 @@
 #include <string>
 #include "MDCPPWithSet.h"
 
+#include <sys/time.h>
+
 using std::cout;
 using std::endl;
 using std::string;
@@ -133,13 +135,20 @@ int main(int argc, char* argv[])
 			initGraph.push_back(oneRow);
 		}
 
+		struct timeval startTime, endTime;
+
 		MDCPPWithSet testMDCPP;
+		gettimeofday(&startTime,NULL);
 		int res = testMDCPP.solveMDCPP(initGraph, initSet);
+		gettimeofday(&endTime,NULL);
+		long s = startTime.tv_sec*1000000 + startTime.tv_usec;
+		long e = endTime.tv_sec*1000000 + endTime.tv_usec;
+		long time = e - s;
 		if(res < 0) return -1;
 	//	testMDCPP.printSomething();
 		int pathNum = 0, overlappedNum = 0;
 		testMDCPP.recordData(pathNum, overlappedNum);
-		cout<<pathNum<<" "<<overlappedNum<<" "<<eulerPathNum<<endl;
+		cout<<pathNum<<" "<<overlappedNum<<" "<<eulerPathNum<<" "<<time<<endl;
 	}
 	return 0;
 }
