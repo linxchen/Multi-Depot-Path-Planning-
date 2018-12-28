@@ -54,9 +54,13 @@ def createDepotSet(depotNum, sNum):
 	return depotSet
 
 if __name__ == '__main__':
-	for i in range(10, 101, 2):
+	for i in range(20, 151, 2):        #various sNum
 		topo, oddCount = createRandomTopo(i)
-		depotSet = createDepotSet(5, i)
+		depotSet = createDepotSet(12, i)     #set depotNum
+		if oddCount == 0:
+			eulerPathCount = 1
+		else:
+			eulerPathCount = oddCount/2
 		print(topo)
 		print(depotSet)
-#		print(oddCount)
+		print(eulerPathCount)

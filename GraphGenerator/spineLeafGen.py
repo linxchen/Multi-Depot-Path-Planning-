@@ -32,10 +32,26 @@ def createDepotSetForSpineLeaf(sNum, density):
 
 	return depotSet
 
+def calEulerPathNum(topoMatrix, sNum):
+	count = 0
+	for i in range(sNum):
+		degreeSum = 0
+		for j in range(sNum):
+			degreeSum += topoMatrix[i][j]
+		if degreeSum%2 == 1:
+			count += 1
+	if count == 0:
+		count = 1
+	else:
+		count /= 2
+	return count
+
 if __name__ == '__main__':
-	den = 0.5
-	for i in range(3, 101, 3):
+	den = 0.5         #set depot density
+	for i in range(3, 101, 3):      #set sNum
 		topo = genSpineLeaf(i) #SNum must be larger than 3
 		depotSet = createDepotSetForSpineLeaf(i, den)
+		eulerPathCount = calEulerPathNum(topo, i)
 		print(topo)
 		print(depotSet)
+		print(eulerPathCount)

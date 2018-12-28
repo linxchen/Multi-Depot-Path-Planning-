@@ -69,12 +69,13 @@ def createDepotSet(depotNum, sNum):
 	return depotSet
 
 if __name__ == '__main__':
-	fixedOddNum = 20
-	for i in range(22, 101, 2):
+	fixedOddNum = 20        #set fixedOddNum
+	for i in range(40, 151, 2):         #various sNum
 		topo = createRandomTopoWithFixedOdds(i, fixedOddNum)
-		depotSet = createDepotSet(5, i)
+		depotSet = createDepotSet(12, i)      #set depotNum
 		if len(topo) == 0:
 			print("error")
 			break
 		print(topo)
 		print(depotSet)
+		print(fixedOddNum/2)

@@ -110,8 +110,10 @@ int main(int argc, char* argv[])
 	if(!input){cout<<"wrong parameter."; return -1;}
 	string graphMatrix = "";
 	string depotMatrix = "";
-	while(getline(input, graphMatrix) && getline(input, depotMatrix))
+	string eulerPathStr = "";
+	while(getline(input, graphMatrix) && getline(input, depotMatrix) && getline(input, eulerPathStr))
 	{
+		int eulerPathNum = atoi(eulerPathStr.c_str());
 		vector<int> initSet;
 		int sNum = 0;
 		if(parseOneDimensionMatrix(initSet, sNum, depotMatrix) < 0)
@@ -137,7 +139,7 @@ int main(int argc, char* argv[])
 	//	testMDCPP.printSomething();
 		int pathNum = 0, overlappedNum = 0;
 		testMDCPP.recordData(pathNum, overlappedNum);
-		cout<<pathNum<<" "<<overlappedNum<<endl;
+		cout<<pathNum<<" "<<overlappedNum<<" "<<eulerPathNum<<endl;
 	}
 	return 0;
 }

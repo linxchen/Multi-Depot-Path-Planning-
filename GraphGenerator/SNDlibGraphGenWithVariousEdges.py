@@ -131,14 +131,30 @@ def createDepotSetWithPolicy(depotNum, sNum, diction):
 		depotSet[diction[geoLocationSet3[randomDepot]]] = 1
 	return depotSet
 
+def calEulerPathNum(topoMatrix, sNum):
+	count = 0
+	for i in range(sNum):
+		degreeSum = 0
+		for j in range(sNum):
+			degreeSum += topoMatrix[i][j]
+		if degreeSum%2 == 1:
+			count += 1
+	if count == 0:
+		count = 1
+	else:
+		count /= 2
+	return count
+
 if __name__ == '__main__':
 	filename = sys.argv[1]
 	sNum, dictional = transformSNDGraph(filename)
-	depotSet = createDepotSetWithPolicy(12, sNum, dictional)
-	for i in range(50,600,20):
+	depotSet = createDepotSetWithPolicy(12, sNum, dictional)    #set depotNum
+	for i in range(50,721,10):        #various edgeNum
 		topo = createRandomTopo(sNum, i)
 		if len(topo) == 0 or countEdgesNum(topo) != i:
 			print("error")
 			break
+		eulerPathCount = calEulerPathNum(topo, sNum)
 		print(topo)
 		print(depotSet)
+		print(eulerPathCount)
