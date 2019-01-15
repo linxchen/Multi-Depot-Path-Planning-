@@ -113,6 +113,7 @@ int main(int argc, char* argv[])
 	string graphMatrix = "";
 	string depotMatrix = "";
 	string eulerPathStr = "";
+	int xAxis = 6;
 	while(getline(input, graphMatrix) && getline(input, depotMatrix) && getline(input, eulerPathStr))
 	{
 		int eulerPathNum = atoi(eulerPathStr.c_str());
@@ -149,13 +150,20 @@ int main(int argc, char* argv[])
 		gettimeofday(&endTime,NULL);
 		long s = startTime.tv_sec*1000000 + startTime.tv_usec;
 		long e = endTime.tv_sec*1000000 + endTime.tv_usec;
-		long time = e - s;
+		long time = e - s;   //usec
 		if(res < 0) return -1;
 	//	testMDCPP.printSomething();
 		int pathNum = 0, overlappedNum = 0;
 		testMDCPP.recordData(pathNum, overlappedNum);
-	//	cout<<pathNum<<" "<<overlappedNum<<" "<<eulerPathNum<<" "<<time<<endl;
-		cout<<pathNum<<" "<<overlappedNum<<" "<<eulerPathNum<<" "<<edgesSum<<endl;
+
+	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<endl;  //SNDlibGraph
+	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<"	"<<edgesSum<<"	"<<(edgesSum+overlappedNum)<<endl; //randomGraph
+	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<endl; //randomGraphWithfixedOdd
+	//	cout<<xAxis<<"	"<<time<<endl;  //randomGraph  calculate time with different depotNum
+	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<endl; //SNDlibWithEdges
+		cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<endl; //fatTree  and  spineLeaf
+
+		xAxis += 3;
 	}
 	return 0;
 }

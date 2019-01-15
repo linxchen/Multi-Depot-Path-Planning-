@@ -57,6 +57,8 @@ if __name__ == '__main__':
 	for i in range(20, 151, 2):        #various sNum
 		topo, oddCount = createRandomTopo(i)
 		depotSet = createDepotSet(12, i)     #set depotNum
+		#depotSet = createDepotSet(24, i)     #set depotNum
+		#depotSet = createDepotSet(48, i)     #set depotNum
 		if oddCount == 0:
 			eulerPathCount = 1
 		else:

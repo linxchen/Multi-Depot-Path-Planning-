@@ -1,0 +1,64 @@
+\documentclass[10pt, conference, letterpaper]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage[T1]{fontenc}
+
+\usepackage{courier} 
+\usepackage{epsfig}
+\usepackage{subfigure}
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{amsthm}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{comment}
+
+\usepackage{algorithm}
+
+\pagestyle{plain}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\long\def\tian#1{{\color{blue} \textbf{[Tian: #1]}}}
+
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+\newcommand{\eg}{{\it e.g.}}
+\newcommand{\aka}{{\it a.k.a.}}
+\newcommand{\etal}{{\it et al.}}
+\newcommand{\etc}{{\it etc}}
+\newcommand{\ie}{{\it i.e.}}
+
+\title{INT-path: Towards Optimal Path Planning for In-band
+Network-Wide Telemetry}
+
+\author{\#1570473294, 9 pages}
+
+\maketitle
+
+\input{abstract}
+
+\input{introduction}
+
+\input{design}
+
+\input{algorithm}
+
+\input{evaluation}
+
+\input{related}
+
+\input{conclusion}
+
+\small
+\bibliographystyle{IEEEtran}
+\bibliography{ref}
+\normalsize
+
+\end{document}
