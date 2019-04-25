@@ -42,7 +42,7 @@ int main()
   char recv_buf[20];  
   
   while(1) {
-    printf("client send: %s\n", send_buf);  
+    // printf("client send: %s\n", send_buf);  
       
     send_num = sendto(sock_fd, send_buf, strlen(send_buf), 0, (struct sockaddr *)&addr_serv, len);  
       
