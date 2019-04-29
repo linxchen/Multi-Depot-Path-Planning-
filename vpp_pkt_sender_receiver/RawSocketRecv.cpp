@@ -121,6 +121,8 @@ int main(int argc, char **argv)
 					p_metadata++;
 				}
 
+				p_metadata += 2; //after mac addr, there are 2 bytes reserved.
+
 				printf("%d switch hop info:\n", count_switch);
 				printf("    link src mac:%X:%X:%X:%X:%X:%X    egress_queue_size:%u    switch_latency:%u\n",
 					link.link_src_mac[0], link.link_src_mac[1], link.link_src_mac[2],

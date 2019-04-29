@@ -10,7 +10,7 @@
    
   
 #define DEST_PORT 55555
-#define DSET_IP_ADDRESS  "10.10.1.2"   
+#define DSET_IP_ADDRESS  "10.0.0.2"   
    
   
 int main()  
@@ -52,7 +52,7 @@ int main()
       exit(1);  
     }
 
-    sleep(0.001);
+    usleep(0.00001);
   }
     
   recv_num = recvfrom(sock_fd, recv_buf, sizeof(recv_buf), 0, (struct sockaddr *)&addr_serv, (socklen_t *)&len);  
