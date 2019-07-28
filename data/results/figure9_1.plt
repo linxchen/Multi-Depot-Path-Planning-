@@ -7,7 +7,7 @@ set size ratio 0.8
 set grid
 
 set xlabel "Switch Number (LeafSpine)" offset 0,0.3
-set ylabel "Overlapped Edge Number" offset 1.5,0
+set ylabel "Overlapped Edge Number" offset 1.7,0
 
 set key font ",20"
 set yrange [0:55]

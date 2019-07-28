@@ -1,5 +1,5 @@
 reset
-set key center at 30, 30
+set key center at 30, 28.5
 
 set size ratio 0.8
 
@@ -7,7 +7,7 @@ set size ratio 0.8
 set grid
 
 set xlabel "Switch Number (LeafSpine)" offset 0,0.3
-set ylabel "INT Path Number" offset 1.5,0
+set ylabel "INT Path Number" offset 2.0,0
 
 set key font ",20"
 set yrange [0:35]
