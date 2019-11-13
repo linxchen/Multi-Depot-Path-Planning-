@@ -26,8 +26,8 @@ ip netns exec host3 \
   bash -c "
     ip link set dev lo up
     ip addr add 10.0.3.2/24 dev veth_h3
-    ip route add 10.0.1.0/24 via 10.0.3.2
-    ip route add 10.0.2.0/24 via 10.0.3.2
+    ip route add 10.0.1.0/24 via 10.0.3.1
+    ip route add 10.0.2.0/24 via 10.0.3.1
 "
 
 # create and configure 2nd veth pair

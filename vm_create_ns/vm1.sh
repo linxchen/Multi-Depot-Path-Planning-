@@ -23,5 +23,5 @@ ip netns exec host1 \
   bash -c "
     ip link set dev lo up
     ip addr add 10.0.1.2/24 dev veth_h1
-    ip route add 10.0.3.0/24 via 10.0.1.2
+    ip route add 10.0.3.0/24 via 10.0.1.1
 "
