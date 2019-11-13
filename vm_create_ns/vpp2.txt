@@ -12,3 +12,10 @@ set interface state GigabitEthernet0/3/0 up
 set interface state GigabitEthernet0/8/0 up
 set interface ip address GigabitEthernet0/3/0 10.0.4.2/24
 set interface ip address GigabitEthernet0/8/0 10.0.5.2/24
+
+# route
+# h1->h3
+ip route add 10.0.3.0/24 via 10.0.5.1 GigabitEthernet0/8/0
+# h3->h1
+ip route add 10.0.1.0/24 via 10.0.4.1 GigabitEthernet0/3/0
+

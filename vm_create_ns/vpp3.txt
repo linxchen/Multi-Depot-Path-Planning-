@@ -25,3 +25,13 @@ set interface ip address host-veth_vpp2 10.0.9.1/24
 # config inwt
 inwt header add next 10.0.8.2 next 10.0.7.1 next 10.0.4.2 next 10.0.5.1 next 10.0.6.2 next 10.0.10.2 maxhop 6 insmap 0xffff
 
+# route
+# h1/h2->h3
+ip route add 10.0.3.0/24 via 10.0.6.2 GigabitEthernet0/8/0
+# h3->h1
+ip route add 10.0.1.0/24 via 10.0.5.2 GigabitEthernet0/3/0
+
+
+# host2 iperf  ->  host3
+iperf -u -c 10.0.3.2 -b 100M -t 10 -i 1
+

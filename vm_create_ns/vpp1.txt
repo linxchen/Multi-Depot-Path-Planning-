@@ -15,3 +15,12 @@ set interface state host-veth_vpp1 up
 set interface ip address GigabitEthernet0/3/0 10.0.4.1/24
 set interface ip address GigabitEthernet0/8/0 10.0.7.1/24
 set interface ip address host-veth_vpp1 10.0.1.1/24
+
+# route
+# h1->h3
+ip route add 10.0.3.0/24 via 10.0.4.2 GigabitEthernet0/3/0
+
+
+# host1 iperf  ->  host3
+iperf -u -c 10.0.3.2 -b 100M -t 10 -i 1
+
