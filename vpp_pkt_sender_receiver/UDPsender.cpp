@@ -7,12 +7,12 @@
 #include <sys/socket.h>   
 #include <netinet/in.h>   
 #include <arpa/inet.h>   
-   
-  
+
+
 #define DEST_PORT 55555
 #define DSET_IP_ADDRESS  "10.0.0.2"   
-   
-  
+
+
 int main()  
 {  
   /* socket文件描述符 */  
@@ -55,7 +55,7 @@ int main()
     usleep(0.00001);
   }
     
-  recv_num = recvfrom(sock_fd, recv_buf, sizeof(recv_buf), 0, (struct sockaddr *)&addr_serv, (socklen_t *)&len);  
+  /*recv_num = recvfrom(sock_fd, recv_buf, sizeof(recv_buf), 0, (struct sockaddr *)&addr_serv, (socklen_t *)&len);  
     
   if(recv_num < 0)  
   {  
@@ -64,7 +64,7 @@ int main()
   }  
     
   recv_buf[recv_num] = '\0';  
-  printf("client receive %d bytes: %s\n", recv_num, recv_buf);  
+  printf("client receive %d bytes: %s\n", recv_num, recv_buf);  */
     
   close(sock_fd);  
     

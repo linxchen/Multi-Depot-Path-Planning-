@@ -1,0 +1,17 @@
+# ready for vpp interface
+sudo ip link set dev enp0s3 down
+sudo modprobe uio_pci_generic
+sudo ../vpp/build-root/install-vpp-native/external/share/dpdk/usertools/dpdk-devbind.py -b uio_pci_generic 0000:00:03.0
+
+# run vpp
+sudo make run-release STARTUP_CONF=/home/linxchen/vpp/startup.conf
+
+# config vpp
+create host-interface name veth_vpp1
+create host-interface name veth_vpp2
+set interface state GigabitEthernet0/3/0 up
+set interface state host-veth_vpp1 up
+set interface state host-veth_vpp2 up
+set interface ip address GigabitEthernet0/3/0 10.0.6.2/24
+set interface ip address host-veth_vpp1 10.0.3.1/24
+set interface ip address host-veth_vpp2 10.0.10.1/24

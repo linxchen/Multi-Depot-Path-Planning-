@@ -45,9 +45,9 @@ typedef struct
 typedef struct
 {
 	unsigned int egress_queue_size;
-	unsigned int switch_latency;
-	unsigned long long ingress_timestamp;
-	unsigned long long egress_timestamp;
+	double switch_latency;
+	double ingress_timestamp;
+	double egress_timestamp;
 	unsigned char link_src_mac[6];
 } link_infos;
 
@@ -91,30 +91,32 @@ int main(int argc, char **argv)
 			p_int = (ip4_inwt_int_header_t *) (((void *) p_sr) + p_sr->length);
 			p_metadata = (unsigned char *) (((void *) p_int) + sizeof(ip4_inwt_int_header_t));
 			metadata_length_of_per_hop = (unsigned int) p_int->metadata_length_of_per_hop;
+			printf("metadata_length_of_per_hop: %d\n", metadata_length_of_per_hop);
 			metadata_length_left = (unsigned int) p_int->length - sizeof(ip4_inwt_int_header_t);
+			printf("metadata_length_left: %d\n", metadata_length_left);
 			while(metadata_length_left > 0) {
 				count_switch++;
 				metadata_length_left -= metadata_length_of_per_hop;
 
 				link_infos link;
 				unsigned int *p32 = NULL;
-				unsigned long long *p64 = NULL;
+				double *p64 = NULL;
 
 				p32 = (unsigned int *) ((void *) p_metadata);
 				link.egress_queue_size = *p32;
 				p_metadata = (unsigned char *) (((void *) p_metadata) + sizeof(unsigned int));
 
-				p32 = (unsigned int *) ((void *) p_metadata);
-				link.switch_latency = *p32;
-				p_metadata = (unsigned char *) (((void *) p_metadata) + sizeof(unsigned int));
+				p64 = (double *) ((void *) p_metadata);
+				link.switch_latency = *p64;
+				p_metadata = (unsigned char *) (((void *) p_metadata) + sizeof(double));
 
-				p64 = (unsigned long long *) ((void *) p_metadata);
+				p64 = (double *) ((void *) p_metadata);
 				link.ingress_timestamp = *p64;
-				p_metadata = (unsigned char *) (((void *) p_metadata) + sizeof(unsigned long long));
+				p_metadata = (unsigned char *) (((void *) p_metadata) + sizeof(double));
 
-				p64 = (unsigned long long *) ((void *) p_metadata);
+				p64 = (double *) ((void *) p_metadata);
 				link.egress_timestamp = *p64;
-				p_metadata = (unsigned char *) (((void *) p_metadata) + sizeof(unsigned long long));
+				p_metadata = (unsigned char *) (((void *) p_metadata) + sizeof(double));
 
 				for(unsigned int i=0; i<6; ++i) {
 					link.link_src_mac[i] = *p_metadata;
@@ -124,11 +126,11 @@ int main(int argc, char **argv)
 				p_metadata += 2; //after mac addr, there are 2 bytes reserved.
 
 				printf("%d switch hop info:\n", count_switch);
-				printf("    link src mac:%X:%X:%X:%X:%X:%X    egress_queue_size:%u    switch_latency:%u\n",
+				printf("    link src mac:%X:%X:%X:%X:%X:%X    egress_queue_size:%u    switch_latency:%.6f\n",
 					link.link_src_mac[0], link.link_src_mac[1], link.link_src_mac[2],
 					link.link_src_mac[3], link.link_src_mac[4], link.link_src_mac[5],
 					link.egress_queue_size, link.switch_latency);
-				printf("    ingress_timestamp:%llu    egress_timestamp:%llu\n",
+				printf("    ingress_timestamp:%.6f    egress_timestamp:%.6f\n",
 					link.ingress_timestamp, link.egress_timestamp);
 			}
 		}
