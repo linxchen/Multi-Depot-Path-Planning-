@@ -3,12 +3,12 @@ import sys
 head_line_number = 2
 perhop_line_number = 3
 hop_number = 6
-mac_map = {"mac:8:0:27:EF:C6:AC":1,
-			"mac:8:0:27:70:39:2C":2,
-			"mac:8:0:27:34:66:29":3,
-			"mac:8:0:27:6F:8A:53":4,
-			"mac:8:0:27:F8:81:A2":5,
-			"mac:2:FE:B9:3C:9E:DC":6}
+mac_map = {"8:0:27:35:6D:62":1,
+			"8:0:27:A8:B3:6A":2,
+			"8:0:27:8C:77:3F":3,
+			"8:0:27:2A:85:1C":4,
+			"8:0:27:32:A5:E1":5,
+			"8:0:27:12:50:9C":6}
 output_file1 = 'data_hop1_'
 output_file2 = 'data_hop2_'
 output_file3 = 'data_hop3_'
@@ -83,6 +83,8 @@ def parse_data(data_path, hop_infos):
 				latency = ""
 				for j in range(perhop_line_number):
 					line = fd.readline()
+					if not line:
+						return
 					if j == 1:
 						line_eles = line.split()
 						mac = line_eles[1]
