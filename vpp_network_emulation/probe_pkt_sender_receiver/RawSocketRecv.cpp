@@ -91,9 +91,9 @@ int main(int argc, char **argv)
 			p_int = (ip4_inwt_int_header_t *) (((void *) p_sr) + p_sr->length);
 			p_metadata = (unsigned char *) (((void *) p_int) + sizeof(ip4_inwt_int_header_t));
 			metadata_length_of_per_hop = (unsigned int) p_int->metadata_length_of_per_hop;
-			printf("metadata_length_of_per_hop: %d\n", metadata_length_of_per_hop);
+			//printf("metadata_length_of_per_hop: %d\n", metadata_length_of_per_hop);
 			metadata_length_left = (unsigned int) p_int->length - sizeof(ip4_inwt_int_header_t);
-			printf("metadata_length_left: %d\n", metadata_length_left);
+			//printf("metadata_length_left: %d\n", metadata_length_left);
 			while(metadata_length_left > 0) {
 				count_switch++;
 				metadata_length_left -= metadata_length_of_per_hop;
@@ -123,14 +123,14 @@ int main(int argc, char **argv)
 					p_metadata++;
 				}
 
-				p_metadata += 2; //after mac addr, there are 2 bytes reserved.
+				p_metadata += 2; //after mac addr, there are 2 Byte reserved.
 
 				printf("%d switch hop info:\n", count_switch);
-				printf("    link src mac:%X:%X:%X:%X:%X:%X    egress_queue_size:%u    switch_latency:%.6f\n",
+				printf("    mac %X:%X:%X:%X:%X:%X    egress_queue_size %u    switch_latency %.6f\n",
 					link.link_src_mac[0], link.link_src_mac[1], link.link_src_mac[2],
 					link.link_src_mac[3], link.link_src_mac[4], link.link_src_mac[5],
 					link.egress_queue_size, link.switch_latency);
-				printf("    ingress_timestamp:%.6f    egress_timestamp:%.6f\n",
+				printf("    ingress_timestamp %.6f    egress_timestamp %.6f\n",
 					link.ingress_timestamp, link.egress_timestamp);
 			}
 		}

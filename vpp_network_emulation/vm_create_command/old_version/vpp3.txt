@@ -35,3 +35,8 @@ ip route add 10.0.1.0/24 via 10.0.5.2 GigabitEthernet0/3/0
 # host2 iperf  ->  host3
 iperf -u -c 10.0.3.2 -b 100M -t 10 -i 1
 
+
+
+fnl@fnl:~$ VBoxManage modifyvm vpp_inwt_3 --nic7 intnet --intnet7 hostnet1
+fnl@fnl:~$ VBoxManage modifyvm vpp_inwt_3 --nic8 intnet --intnet8 hostnet2
+fnl@fnl:~$ VBoxManage showvminfo vpp_inwt_3

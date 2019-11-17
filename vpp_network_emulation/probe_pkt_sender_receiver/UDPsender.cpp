@@ -10,7 +10,8 @@
 
 
 #define DEST_PORT 55555
-#define DSET_IP_ADDRESS  "10.0.0.2"   
+#define DSET_IP_ADDRESS  "10.4.4.2"   //probe1
+//#define DSET_IP_ADDRESS  "10.5.5.2"  //probe2
 
 
 int main()  
@@ -38,8 +39,8 @@ int main()
     
   int send_num;  
   int recv_num;  
-  char send_buf[20] = "hey, who are you?";  
-  char recv_buf[20];  
+  char send_buf[6] = "hello";  
+  //char recv_buf[20];  
   
   while(1) {
     // printf("client send: %s\n", send_buf);  
@@ -52,9 +53,9 @@ int main()
       exit(1);  
     }
 
-    usleep(0.00001);
+    usleep(1);  // 1Mpps
   }
-    
+
   /*recv_num = recvfrom(sock_fd, recv_buf, sizeof(recv_buf), 0, (struct sockaddr *)&addr_serv, (socklen_t *)&len);  
     
   if(recv_num < 0)  
