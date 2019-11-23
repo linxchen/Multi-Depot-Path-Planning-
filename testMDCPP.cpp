@@ -156,14 +156,15 @@ int main(int argc, char* argv[])
 		int pathNum = 0, overlappedNum = 0;
 		testMDCPP.recordData(pathNum, overlappedNum);
 
-		cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<endl;  //SNDlibGraph
+	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<endl;  //SNDlibGraph
 	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<"	"<<edgesSum<<"	"<<(edgesSum+overlappedNum)<<endl; //randomGraph
 	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<endl; //randomGraphWithfixedOdd
 	//	cout<<xAxis<<"	"<<time<<endl;  //randomGraph  calculate time with different depotNum
 	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<endl; //SNDlibWithEdges
-	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<endl; //fatTree  and  spineLeaf
+		xAxis = sNum;  //fatTree  and  spineLeaf
+		cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<"	"<<"0"<<endl; //fatTree  and  spineLeaf
 
-		xAxis += 1;
+	//	xAxis += 1;
 	}
 	return 0;
 }

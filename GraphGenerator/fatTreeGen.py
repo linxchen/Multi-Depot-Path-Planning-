@@ -129,7 +129,7 @@ def calEulerPathNum(topoMatrix, sNum):
 	return count
 
 if __name__ == '__main__':
-	den = 0.2         #set depot density
+	den = 0.8         #set depot density
 	for i in range(2, 22):       #set podsNum
 		topo, host, sNum = genFatTree(i)    #podsNum must be larger than 2
 		depotSet = createDepotSetForFatTree(host, den)
