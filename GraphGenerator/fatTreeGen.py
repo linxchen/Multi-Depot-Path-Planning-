@@ -128,12 +128,35 @@ def calEulerPathNum(topoMatrix, sNum):
 		count /= 2
 	return count
 
+def downOneLinkRandomly(topo, sNum):
+	randomX = 0
+	randomY = 0
+	while randomX == randomY or topo[randomX][randomY] == 0:
+		randomX = random.randint(0, sNum-1)
+		randomY = random.randint(0, sNum-1)
+	topo[randomX][randomY] = 0
+	topo[randomY][randomX] = 0
+	return topo
+
 if __name__ == '__main__':
-	den = 0.8         #set depot density
-	for i in range(2, 22):       #set podsNum
-		topo, host, sNum = genFatTree(i)    #podsNum must be larger than 2
+	den = 0.2         #set depot density
+	for i in range(2, 31, 2):       #set podsNum
+		topo, host, sNum = genFatTree(i)    #podsNum must be larger than 2, and must be even number
 		depotSet = createDepotSetForFatTree(host, den)
 		eulerPathCount = calEulerPathNum(topo, sNum)
 		print(topo)
 		print(depotSet)
 		print(eulerPathCount)
+
+	# gen graph for p4_system recovery experiments
+	# den = 0.5
+	# podsList = [4,6,20,22,40,42]
+	# for i in podsList:
+	# 	for t in range(5):   # do 5 times experiments for each
+	# 		topo, host, sNum = genFatTree(i)
+	# 		newTopo = downOneLinkRandomly(topo, sNum)
+	# 		depotSet = createDepotSetForFatTree(host, den)
+	# 		eulerPathCount = calEulerPathNum(newTopo, sNum)
+	# 		print(newTopo)
+	# 		print(depotSet)
+	# 		print(eulerPathCount)

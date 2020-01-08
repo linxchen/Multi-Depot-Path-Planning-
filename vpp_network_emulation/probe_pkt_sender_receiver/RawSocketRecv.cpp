@@ -44,10 +44,12 @@ typedef struct
 
 typedef struct
 {
-	unsigned int egress_queue_size;
-	double switch_latency;
-	double ingress_timestamp;
-	double egress_timestamp;
+	//unsigned int egress_queue_size;
+	unsigned int ingress_timestamp_s;
+	unsigned int ingress_timestamp_us;
+	unsigned int egress_timestamp_s;
+	unsigned int egress_timestamp_us;
+	unsigned long long switch_latency;
 	unsigned char link_src_mac[6];
 } link_infos;
 
@@ -100,23 +102,30 @@ int main(int argc, char **argv)
 
 				link_infos link;
 				unsigned int *p32 = NULL;
-				double *p64 = NULL;
+
+				//p32 = (unsigned int *) ((void *) p_metadata);
+				//link.egress_queue_size = *p32;
+				//p_metadata = (unsigned char *) (((void *) p_metadata) + sizeof(unsigned int));
 
 				p32 = (unsigned int *) ((void *) p_metadata);
-				link.egress_queue_size = *p32;
+				link.ingress_timestamp_s = *p32;
 				p_metadata = (unsigned char *) (((void *) p_metadata) + sizeof(unsigned int));
 
-				p64 = (double *) ((void *) p_metadata);
-				link.switch_latency = *p64;
-				p_metadata = (unsigned char *) (((void *) p_metadata) + sizeof(double));
+				p32 = (unsigned int *) ((void *) p_metadata);
+				link.ingress_timestamp_us = *p32;
+				p_metadata = (unsigned char *) (((void *) p_metadata) + sizeof(unsigned int));
 
-				p64 = (double *) ((void *) p_metadata);
-				link.ingress_timestamp = *p64;
-				p_metadata = (unsigned char *) (((void *) p_metadata) + sizeof(double));
+				p32 = (unsigned int *) ((void *) p_metadata);
+				link.egress_timestamp_s = *p32;
+				p_metadata = (unsigned char *) (((void *) p_metadata) + sizeof(unsigned int));
 
-				p64 = (double *) ((void *) p_metadata);
-				link.egress_timestamp = *p64;
-				p_metadata = (unsigned char *) (((void *) p_metadata) + sizeof(double));
+				p32 = (unsigned int *) ((void *) p_metadata);
+				link.egress_timestamp_us = *p32;
+				p_metadata = (unsigned char *) (((void *) p_metadata) + sizeof(unsigned int));
+
+				unsigned long long end_us = (unsigned long long) link.egress_timestamp_us + ((unsigned long long) link.egress_timestamp_s) * 1000000;
+				unsigned long long begin_us = (unsigned long long) link.ingress_timestamp_us + ((unsigned long long) link.ingress_timestamp_s) * 1000000;
+				link.switch_latency = end_us - begin_us;
 
 				for(unsigned int i=0; i<6; ++i) {
 					link.link_src_mac[i] = *p_metadata;
@@ -126,12 +135,14 @@ int main(int argc, char **argv)
 				p_metadata += 2; //after mac addr, there are 2 Byte reserved.
 
 				printf("%d switch hop info:\n", count_switch);
-				printf("    mac %X:%X:%X:%X:%X:%X    egress_queue_size %u    switch_latency %.6f\n",
+				printf("    mac %X:%X:%X:%X:%X:%X    switch_latency %llu\n",
 					link.link_src_mac[0], link.link_src_mac[1], link.link_src_mac[2],
 					link.link_src_mac[3], link.link_src_mac[4], link.link_src_mac[5],
-					link.egress_queue_size, link.switch_latency);
-				printf("    ingress_timestamp %.6f    egress_timestamp %.6f\n",
-					link.ingress_timestamp, link.egress_timestamp);
+					link.switch_latency);
+				printf("    ingress_timestamp_s %u    ingress_timestamp_us %u\n",
+					link.ingress_timestamp_s, link.ingress_timestamp_us);
+				printf("    egress_timestamp_s %u    egress_timestamp_us %u\n",
+					link.egress_timestamp_s, link.egress_timestamp_us);
 			}
 		}
 	}

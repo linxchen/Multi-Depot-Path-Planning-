@@ -12,7 +12,7 @@ using std::ifstream;
 
 void MDCPPWithSet::printSomething()
 {
-	for(int i=0;i<edgesGp.size();++i) cout<<edgesGp[i]<<" ";
+/*	for(int i=0;i<edgesGp.size();++i) cout<<edgesGp[i]<<" ";
 	cout<<endl;
 	for(int i=0;i<weightsGp.size();++i) cout<<weightsGp[i]<<" ";
 	cout<<endl;
@@ -33,10 +33,19 @@ void MDCPPWithSet::printSomething()
 	{
 		cout<<depotSet[i]<<" ";
 	}
-	cout<<endl;
+	cout<<endl;*/
+	for(int i=0;i<pathsResult.size();++i)
+	{
+		for(int j=0;j<pathsResult[i].size();++j)
+		{
+			cout<<pathsResult[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+	cout<<pathsResult.size()<<endl;
 }
 
-void MDCPPWithSet::recordData(int &pathNum, int &overlappedNum)
+void MDCPPWithSet::recordData(int &theoryPathNum, int &overlappedNum)
 {
 	overlappedNum = cost;
 	int oddCount = 0;
@@ -54,11 +63,11 @@ void MDCPPWithSet::recordData(int &pathNum, int &overlappedNum)
 		}
 	}
 	if(oddCount == 0)
-		pathNum = 1;
+		theoryPathNum = 1;
 	else if((oddCount & 0x01) == 0)
-		pathNum = oddCount/2;
+		theoryPathNum = oddCount/2;
 	else
-		pathNum = 0;
+		theoryPathNum = 0;
 }
 
 int parseOneDimensionMatrix(vector<int> &result, int &switchNum, const string &matrix)
@@ -113,7 +122,7 @@ int main(int argc, char* argv[])
 	string graphMatrix = "";
 	string depotMatrix = "";
 	string eulerPathStr = "";
-	int xAxis = 1;
+	int xAxis;
 	while(getline(input, graphMatrix) && getline(input, depotMatrix) && getline(input, eulerPathStr))
 	{
 		int eulerPathNum = atoi(eulerPathStr.c_str());
@@ -142,27 +151,43 @@ int main(int argc, char* argv[])
 		}
 		edgesSum /= 2;
 
+		int theoryPathNum = 0, overlappedNum = 0, pathNum = 0;
 		struct timeval startTime, endTime;
+		gettimeofday(&startTime,NULL);
 
 		MDCPPWithSet testMDCPP;
-		gettimeofday(&startTime,NULL);
 		int res = testMDCPP.solveMDCPP(initGraph, initSet);
+		if(res < 0){
+			cout<<"error"<<endl;
+			return -1;
+		}
+		testMDCPP.solveEulerTrails(pathNum);
+
 		gettimeofday(&endTime,NULL);
 		long s = startTime.tv_sec*1000000 + startTime.tv_usec;
 		long e = endTime.tv_sec*1000000 + endTime.tv_usec;
 		long time = e - s;   //usec
-		if(res < 0) return -1;
+		
 	//	testMDCPP.printSomething();
-		int pathNum = 0, overlappedNum = 0;
-		testMDCPP.recordData(pathNum, overlappedNum);
+		testMDCPP.recordData(theoryPathNum, overlappedNum);
+		if(theoryPathNum != pathNum){
+			cout<<"error"<<endl;
+			cout<<"theoryPathNum: "<<theoryPathNum<<endl;
+			cout<<"pathNum: "<<pathNum<<endl;
+			cout<<"eulerPathNum: "<<eulerPathNum<<endl;
+			testMDCPP.printSomething();
+			return -1;
+		}
 
+	//	xAxis = sNum;
 	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<endl;  //SNDlibGraph
 	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<"	"<<edgesSum<<"	"<<(edgesSum+overlappedNum)<<endl; //randomGraph
 	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<endl; //randomGraphWithfixedOdd
+	//	xAxis = sNum;  //randomGraph  calculate time with different depotNum
 	//	cout<<xAxis<<"	"<<time<<endl;  //randomGraph  calculate time with different depotNum
 	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<endl; //SNDlibWithEdges
-		xAxis = sNum;  //fatTree  and  spineLeaf
-		cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<"	"<<"0"<<endl; //fatTree  and  spineLeaf
+		xAxis = sNum;  //fatTree and leafSpine
+		cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<"	"<<"0"<<endl; //fatTree and leafSpine
 
 	//	xAxis += 1;
 	}

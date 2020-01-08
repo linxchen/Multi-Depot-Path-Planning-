@@ -1,0 +1,1 @@
+epstool --copy --bbox source.eps destination.eps

@@ -190,3 +190,127 @@ int MDCPPWithSet::solveMDCPP(vector<vector<int>> initialGraph, vector<int> initi
 		return -5;
 	return 0;
 }
+
+void MDCPPWithSet::dfsForEulerTrails(int cur, vector <int> &temp, int n, vector<vector<int>> &graphForEulerTrails)
+{
+	temp.push_back(cur);
+	//cout<<cur+1<<" ";
+	for(int i=0; i<n; ++i)
+	{
+		//判断当前顶点cur到顶点i是否有边,并判断顶点i是否已经访问过
+		if(graphForEulerTrails[cur][i] != 0)
+		{
+			graphForEulerTrails[cur][i] -= 1;  //消去经历过的边
+			graphForEulerTrails[i][cur] -= 1;
+			dfsForEulerTrails(i, temp, n, graphForEulerTrails);
+			break;
+		}
+	}
+}
+
+void MDCPPWithSet::judgeForEulerTrails(vector<vector<int>> &graphForEulerTrails, int n, vector<int> &temp)
+{
+	int zi[n];
+	int cur;
+	
+	int flag_du = 0;   //度的数量
+	for(int i=0; i<n; ++i)
+	{
+		for(int j=0; j<n; ++j)
+		{
+			if(graphForEulerTrails[i][j] != 0)
+			{
+				flag_du += graphForEulerTrails[i][j];
+			}
+		}
+		zi[i] = flag_du;  //将度的数量存入数组
+		flag_du = 0;
+	}
+	for(int i=0; i<n; ++i)
+	{
+		if(zi[i] % 2)  //寻找度数为奇数
+		{
+			cur = i;
+			break;
+		}
+		else if(i == n-1) //若度数都为偶数，则从一号节点开始遍历
+		{
+			for(int k=0; k<n; ++k)
+			{
+				if(zi[k] != 0)
+				{
+					cur = k;
+					break;
+				}
+			}
+		}
+	}
+	dfsForEulerTrails(cur, temp, n, graphForEulerTrails);
+}
+
+void MDCPPWithSet::connectPathForEulerTrails()
+{
+	for(vector<vector<int>>::iterator pathIter=pathsResult.begin(); pathIter!=pathsResult.end();)
+	{
+		int doConnectFlag = 0;
+		if(*((*pathIter).begin()) == *((*pathIter).end()-1))
+		{
+			// for one euler circuit, do the connecting work
+			vector<int> keyVec = *pathIter;
+			sort(keyVec.begin(), keyVec.end());
+			keyVec.erase(unique(keyVec.begin(), keyVec.end()), keyVec.end());
+			int breakFlag = 0;
+			for(vector<vector<int>>::iterator pathIter2=pathsResult.begin(); pathIter2!=pathsResult.end(); ++pathIter2)
+			{
+				if(pathIter2 != pathIter)
+				{
+					for(int k=0; k<keyVec.size(); ++k)
+					{
+						vector<int>::iterator got = find((*pathIter2).begin(), (*pathIter2).end(), keyVec[k]);
+						if(got != (*pathIter2).end())
+						{
+							// find a path which contains this euler circuit's vertex
+							vector<int> eulerCircuit;
+							vector<int>::iterator eulerCircuitBegin = find((*pathIter).begin(), (*pathIter).end(), keyVec[k]);
+							eulerCircuit.insert(eulerCircuit.end(), eulerCircuitBegin, (*pathIter).end());
+							eulerCircuit.insert(eulerCircuit.end(), (*pathIter).begin()+1, eulerCircuitBegin+1);
+							(*pathIter2).insert(got, eulerCircuit.begin(), eulerCircuit.end()-1);
+							pathIter = pathsResult.erase(pathIter);
+							doConnectFlag = 1;
+							breakFlag = 1;
+							break;
+						}
+					}
+				}
+				if(breakFlag == 1)
+					break;
+			}
+		}
+		if(doConnectFlag == 0)
+			++pathIter;
+	}
+}
+
+void MDCPPWithSet::solveEulerTrails(int &pathNum)
+{
+	vector<vector<int>> graphForEulerTrails;
+	graphForEulerTrails = graph;
+
+	int n = graphForEulerTrails.size();
+
+	for(int i=0; i<n; ++i)  //遍历数组，直到所有边耗尽
+	{
+		for(int j=0; j<n; ++j)
+		{
+			if(graphForEulerTrails[i][j] != 0)
+			{
+				vector<int> temp;
+				judgeForEulerTrails(graphForEulerTrails, n, temp);
+				pathsResult.push_back(temp);
+			}
+		}
+	}
+
+	connectPathForEulerTrails();
+	pathNum = pathsResult.size();
+}
