@@ -6,7 +6,7 @@ set size ratio 0.8
 
 set grid
 
-set xlabel "Odd Vertex Number In Depot" offset 0,0.5
+set xlabel "Odd Vertex Number In Set S" offset 0,0.5
 set ylabel "INT Path Number" offset 1.7,0
 set y2label "Overlapped Edge Number" offset -1.7,0
 
