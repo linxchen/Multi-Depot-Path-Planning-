@@ -183,11 +183,11 @@ int main(int argc, char* argv[])
 	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<endl;  //SNDlibGraph
 	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<"	"<<edgesSum<<"	"<<(edgesSum+overlappedNum)<<endl; //randomGraph
 	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<endl; //randomGraphWithfixedOdd
-	//	xAxis = sNum;  //randomGraph  calculate time with different depotNum
-	//	cout<<xAxis<<"	"<<time<<endl;  //randomGraph  calculate time with different depotNum
+		xAxis = sNum;  //randomGraph  calculate time with different depotNum
+		cout<<xAxis<<"	"<<time<<endl;  //randomGraph  calculate time with different depotNum
 	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<endl; //SNDlibWithEdges
-		xAxis = sNum;  //fatTree and leafSpine
-		cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<"	"<<"0"<<endl; //fatTree and leafSpine
+	//	xAxis = sNum;  //fatTree and leafSpine
+	//	cout<<xAxis<<"	"<<pathNum<<"	"<<overlappedNum<<"	"<<eulerPathNum<<"	"<<"0"<<endl; //fatTree and leafSpine
 
 	//	xAxis += 1;
 	}
